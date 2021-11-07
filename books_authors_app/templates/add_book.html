@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'javascript/script.js' %}"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="left">
+            <h1>Add a Book</h1>
+            <form action="/add_book" method="post">
+                {% csrf_token %}
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" placeholder="Title of book">
+                <br>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" columns="80" placeholder="Write description of book here."></textarea>
+                <br>
+                <input type="submit" value="Add" id="add">
+                <a class="view1" href="/authors">View Authors Page</a>
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th class="bl">Title</th>
+                <th class="bl">View Book</th>
+                <th class="bl">Delete</th>
+            </tr>
+            {% for book in books %}
+                <tr>
+                    <td>{{book.id}}</td>
+                    <td class="bl">{{book.title}}</td>
+                    <td class="bl"><a href="/view_book/{{book.id}}">view</a></td>
+                    <td class="bl"><a href="/delete_book/{{book.id}}">x</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

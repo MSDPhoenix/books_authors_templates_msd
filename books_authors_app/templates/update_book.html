@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Book</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'javascript/script.js' %}"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <h2>{{book.title}}</h2>
+        <span> ID: </span>
+        <span> {{book.id}} </span>
+        <br>
+        <span> Description: </span>
+        <form action="/save_book_update/{{book.id}}" method="post">
+            {% csrf_token %}
+            <textarea id="update_description" name="description" rows="4" columns="80">{{book.desc}}</textarea>
+            <input type="submit" value="Update">
+        </form>
+        <ul>Authors:
+            {% for author in book.authors.all %}
+            <li>{{author.first_name}} {{author.last_name}} - <a href="/remove_author_from_book/{{book.id}}/{{author.id}}"> x </a></li>
+            {% endfor %}
+        </ul>
+        <form action="/add_author_to_book/{{book.id}}" method="post">
+            {% csrf_token %}
+            <select name="author_to_add_to_book" id="author_to_add_to_book">
+                {% for author in authors_left %}
+                <option value="{{author.id}}">{{author.first_name}} {{author.last_name}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Add">
+        </form>
+        <a class="view2" href="/authors">View Authors Page</a>
+        <a class="view2" href="/">View Books Page</a>
+    </div>
+    
+</body>
+</html>

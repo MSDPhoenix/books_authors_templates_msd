@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'javascript/script.js' %}"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="left">
+            <h1>Add an Author</h1>
+            <form action="/add_author" method="post">
+                {% csrf_token %}
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" placeholder="Author's first name">
+                <br>
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" placeholder="Author's last name">
+                <br>
+                <label for="notes">Notes</label>
+                <textarea name="notes" id="notes" cols="20" rows="4" placeholder="Notes about the author"></textarea>
+                <br>
+                <input type="submit" value="Add" id="add">
+                <a class="view1" href="/">View Books Page</a>
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th class="bl">Name</th>
+                <th class="bl">View Author</th>
+                <th class="bl">Delete</th>
+            </tr>
+            {% for author in authors.all %}
+                <tr>
+                    <td>{{author.id}}</td>
+                    <td class="bl">{{author.first_name}} {{author.last_name}}</td>
+                    <td class="bl"><a href="/view_author/{{author.id}}">view</a></td>
+                    <td class="bl"><a href="/delete_author/{{author.id}}">x</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

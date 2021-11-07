@@ -1,0 +1,90 @@
+(djangoPy3Env) michaelsduwors@Michaels-MacBook-Pro book_authors_proj % python manage.py shell
+
+>>> from books_authors_app.models import *
+
+>>> Book.objects.create(title="C Sharp",desc="is an inferior language to Python")
+<Book: Book object (1)>
+>>> Book.objects.create(title="Java",desc="is the breakfast of champions")
+<Book: Book object (2)>
+>>> Book.objects.create(title="Python",desc="named after a famous British comedy troupe")
+<Book: Book object (3)>
+>>> Book.objects.create(title="PHP",desc="known on the street as 'angel dust'")
+<Book: Book object (4)>
+>>> Book.objects.create(title="Ruby",desc="one of Kenny Rogers's greatest hits")
+<Book: Book object (5)>
+
+>>> Author.objects.create(first_name="Jane",last_name="Austen")
+<Author: Author object (1)>
+>>> Author.objects.create(first_name="Emily",last_name="Dickinson")
+<Author: Author object (2)>
+>>> Author.objects.create(first_name="Fyodor",last_name="Dostoevsky")
+<Author: Author object (3)>
+>>> Author.objects.create(first_name="William",last_name="Shakespeare")
+<Author: Author object (4)>
+>>> Author.objects.create(first_name="Lao",last_name="Tzu")
+<Author: Author object (5)>
+>>> exit()
+
+    notes = models.TextField()
+
+(djangoPy3Env) michaelsduwors@Michaels-MacBook-Pro book_authors_proj % python manage.py makemigrations
+
+Select an option: 1
+""
+
+(djangoPy3Env) michaelsduwors@Michaels-MacBook-Pro book_authors_proj % python manage.py migrate
+
+(djangoPy3Env) michaelsduwors@Michaels-MacBook-Pro book_authors_proj % python manage.py shell
+
+>>> from books_authors_app.models import *
+
+>>> book_to_update = Book.objects.get(title="C Sharp")
+>>> book_to_update.title="C#"
+>>> book_to_update.save()
+
+>>> author=Author.objects.get(id=4)
+>>> author.first_name="Bill"
+>>> author.save()
+
+>>> author=Author.objects.get(id=1)
+>>> book1=Book.objects.get(id=1)
+>>> book2=Book.objects.get(id=2)
+>>> author.books.add(book1)
+>>> author.books.add(book2)
+
+>>> author2=Author.objects.get(id=2)
+>>> book3=Book.objects.get(id=3)
+>>> author2.books.add(book1,book2,book3)
+
+>>> author3=Author.objects.get(id=3)
+>>> book4=Book.objects.get(id=4)
+>>> author3.books.add(book1,book2,book3,book4)
+
+>>> author4=Author.objects.get(id=4)
+>>> book5=Book.objects.get(id=5)
+>>> author5.books.add(book1,book2,book3,book4,book5)
+
+>>> for author in book3.authors.all():
+...     print(author.first_name,author.last_name)
+... 
+Emily Dickinson
+Fyodor Dostoevsky
+Bill Shakespeare
+
+>>> book3.authors.remove(Author.objects.get(first_name="Emily"))
+
+>>> book2.authors.add(Author.objects.get(id=5))
+
+>>> for book in author3.books.all():
+...     print(book.title)
+... 
+C#
+Java
+Python
+PHP
+
+>>> for author in book5.authors.all(): 
+...     print(author.first_name,author.last_name)
+... 
+Bill Shakespeare
+
